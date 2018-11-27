@@ -1,0 +1,3 @@
+CONFIG SET dir /var/lib/redis
+CONFIG SET dbfilename dump.rdb
+BGSAVE

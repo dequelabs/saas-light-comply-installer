@@ -1,0 +1,9 @@
+program:ecp-registry 11
+program:ecp-config-server 11
+program:ecp-gateway 11
+program:ecp-manager 11
+program:ecp-custom-rules 11
+program:keycloak 12
+program:comply 11
+group:scan-manager 2
+group:worldspace 2

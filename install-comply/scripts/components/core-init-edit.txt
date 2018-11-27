@@ -1,0 +1,6 @@
+group:scan-worker 2 
+program:ecp-proxy 11
+program:ecp-selenium 12
+program:ecp-result-processor 11
+program:ecp-worker 11
+#changing each program section to be auto-start=true
