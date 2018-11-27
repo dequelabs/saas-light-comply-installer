@@ -22,6 +22,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      done
 
                  echo "Supervisord services startup complete";
+                 service filebeat start;
 #                 supervisorctl status all;
 #                 exit 0;
 #                 echo "Tailing comply startup log.."
@@ -59,6 +60,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                          done
 
                      echo "Supervisord services startup complete";
+                     service filebeat start;
  #                    supervisorctl status all;
  #                    exit 0;
                      ;;

@@ -9,6 +9,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
 
         case "$1" in
         "core" )
+                 service filebeat stop;
                  echo "copying install.options from /opt.."
                  cp /opt/install.options ./
                  echo "Uninstalling comply core..."
@@ -41,6 +42,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  ;;
 
         "selenium" )
+                     service filebeat stop;
                      echo "copying install.options from /opt.."
                      cp /opt/install.options ./
                      echo "Uninstalling comply core..."

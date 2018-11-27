@@ -13,7 +13,6 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  #cp scripts/components/install.options.core /opt/install.options
                  
                  cp -Ra ./scripts/components/sslcerts /opt
-                 #cp ./scripts/$COMPLYINSTALLER /opt
                  cd /opt;
                  echo "Retreiving comply install.options from s3.."
                  aws s3 cp s3://comply-ci/install.options.core ./install.options
@@ -49,14 +48,13 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  redis-cli BGSAVE
                  echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
                  sysctl vm.overcommit_memory=1
-#                 ./start_order.sh core
+                 rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
+                 \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
                  ;;
 
         "selenium" )
                      mkdir /opt/worldspace
-#                     cp scripts/components/install.options.selenium /opt/install.options
                      cp -Ra ./scripts/components/sslcerts /opt
-#                     cp ./scripts/$COMPLYINSTALLER /opt
                      cd /opt;
                      echo "Retreiving comply install.options from s3.."
                      aws s3 cp s3://comply-ci/install.options.selenium ./install.options
@@ -66,8 +64,6 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      echo "------------------- Executing $COMPLYINSTALLER"
                      echo "----------------------------------------------------"
                      ./$COMPLYINSTALLER --mode unattended --optionfile ./install.options
-#                     ./worldspace/bin/db_upgrade.sh
-#                     ./worldspace/components/keycloak/bin/firstrun.sh
                      chown -R worldspace:worldspace /opt/worldspace
                      cd -;
                      echo "------------------- Executing /etc/supervisord.d/comply.ini edits..."
@@ -81,7 +77,8 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      chown -R worldspace:worldspace /opt/worldspace
                      echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
                      sysctl vm.overcommit_memory=1
- #                    start_order.sh selenium
+                     rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
+                     \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
                      ;;
         esac
 
