@@ -50,6 +50,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  sysctl vm.overcommit_memory=1
                  rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
                  \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
+                 ./scripts/name_filebeat_core.sh
                  ;;
 
         "selenium" )
@@ -79,6 +80,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      sysctl vm.overcommit_memory=1
                      rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
                      \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
+                     ./scripts/name_filebeat_analysis.sh
                      ;;
         esac
 

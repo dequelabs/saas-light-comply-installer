@@ -1,2 +1,0 @@
-sed -i 's-^/opt/worldspace/components/keycloak/bin/standalone.sh-nohup /opt/worldspace/components/keycloak/bin/standalone.sh-g' /opt/worldspace/components/keycloak/bin/firstrun.sh
-sed -i 's/OVERWRITE_EXISTING$/OVERWRITE_EXISTING \&/g' /opt/worldspace/components/keycloak/bin/firstrun.sh
