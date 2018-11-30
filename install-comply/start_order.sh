@@ -31,7 +31,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
 
         "selenium" )
 
-                         wspublic=$(grep wspublic scripts/components/install.options.core | awk -F'=' '{print$2}')
+                         wspublic=$(/opt/install.options | awk -F'=' '{print$2}')
 
                          route_test () {
                              x=$(./scripts/components/centos7/nc -lk $1 & ./scripts/components/centos7/nc -vz -w1 $wspublic $1 &> /dev/null; echo $?; ps -ef | grep "./scripts/components/centos7/nc -lk $1" | awk '{print$2}' | xargs kill -9 > /dev/null 2>&1);
