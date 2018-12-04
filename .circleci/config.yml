@@ -83,13 +83,13 @@ jobs:
           name: Install AWS tools on Analysis EC2
           command: |
             chmod 600 ~/.ssh/id_*
-            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'sudo bash -s' < install.aws.tools.sh
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./install.aws.tools.sh'
 
       - run:
           name: Execute analysis prereq script on EC2
           command: |
             chmod 600 ~/.ssh/id_*
-            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./install.aws.tools.sh'
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./prereq-setup.sh selenium 6.2.1'
 
       - run:
           name: Execute analysis install script on EC2
