@@ -39,6 +39,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  sed -i 's.7/custom-rules.7.g' /opt/worldspace/mounts/nginx/conf.d/comply.conf
                  systemctl restart nginx
                  chown -R worldspace:worldspace /opt/worldspace
+                 service filebeat start;
                  ;;
 
         "selenium" )
@@ -69,6 +70,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      chown -R worldspace:worldspace /opt/worldspace
                      echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
                      sysctl vm.overcommit_memory=1
+                     service filebeat start;
                      ;;
         esac
 

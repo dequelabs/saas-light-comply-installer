@@ -87,7 +87,7 @@ setup.template.settings:
 
 # The name of the shipper that publishes the network data. It can be used to group
 # all the transactions sent by a single shipper in the web interface.
-name: sujasree-test
+name: COMPLYHOSTNAME 
 
 # The tags of the shipper are included in their own field with each
 # transaction published.
@@ -148,7 +148,7 @@ setup.kibana:
 #-------------------------- Elasticsearch output ------------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["HOSTPLACEHOLDER:9200"]
+  hosts: ["ELASTICHOSTPLACEHOLDER:9200"]
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
