@@ -51,7 +51,7 @@ jobs:
           command: |
             chmod 600 ~/.ssh/id_*
             scp -o StrictHostKeyChecking=no -r /root/project/ci-scripts/install.aws.tools.sh circleci@comply-qa-centos-core.dequelabs.com:/home/circleci
-            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'sudo bash -s' < install.aws.tools.sh 
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'cd install-comply; sudo ./install.aws.tools.sh 
 
       - run:
           name: Execute core prereq script on EC2
