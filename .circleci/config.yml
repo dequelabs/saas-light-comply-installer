@@ -83,7 +83,6 @@ jobs:
           name: Install AWS tools on Analysis EC2
           command: |
             chmod 600 ~/.ssh/id_*
-            scp -o StrictHostKeyChecking=no -r /root/project/ci-scripts/install.aws.tools.sh circleci@comply-qa-centos-analysis.dequelabs.com:/home/circleci
             ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'sudo bash -s' < install.aws.tools.sh
 
       - run:
