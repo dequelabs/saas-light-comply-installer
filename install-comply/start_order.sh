@@ -1,7 +1,7 @@
 #!/bin/bash
 chown -R worldspace:worldspace /opt/worldspace
-if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
-    then echo "This install script must be run with one argument which must be either "core" or "selenium".";
+if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] [[ $1 != "stopall" ]];
+    then echo "This script must be run with one argument which must be either "core", "selenium", or "stopall".";
         exit 1;
     else
 
@@ -28,7 +28,12 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
 #                 echo "Tailing comply startup log.."
 #                 tail -f /opt/worldspace/logs/worldspace-core.log
                  ;;
-
+        "stopall" )
+                    supervisorctl stop all;
+                    echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
+                    sleep 60;
+                    service supervisord stop;
+                    ;;
         "selenium" )
 
                          wspublic=$(/opt/install.options | awk -F'=' '{print$2}')
