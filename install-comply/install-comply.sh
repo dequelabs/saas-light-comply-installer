@@ -50,8 +50,9 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  sysctl vm.overcommit_memory=1
                  rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
                  \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
+                 elastichome=kibana.dequelabs.com
                  beatname=$(grep wscorehost /opt/install.options | awk -F'=' '{print$2}' | cut -d"." -f1);
-                 ./scripts/name_filebeat.sh $beatname
+                 ./scripts/name_filebeat.sh $beatname $elastichome
                  ;;
 
         "selenium" )
@@ -81,8 +82,9 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      sysctl vm.overcommit_memory=1
                      rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
                      \cp -f scripts/components/filebeat/filebeat.yml /etc/filebeat
+                     elastichome=kibana.dequelabs.com
                      beatname=$(grep wscorehost /opt/install.options | awk -F'=' '{print$2}' | cut -d"." -f1 | sed 's/core/analysis/g');
-                     ./scripts/name_filebeat.sh $beatname
+                     ./scripts/name_filebeat.sh $beatname $elastichome
                      ;;
         esac
 

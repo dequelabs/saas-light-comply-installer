@@ -1,5 +1,5 @@
 # Usage: ./name_filebeat.sh kibana.dequelabs.com comply-qa-centos-core
-elastichome=kibana.dequelabs.com
 beatname=$1
-sed -i "s/HOSTPLACEHOLDER/$elastichome/g" /etc/filebeat/filebeat.yml
-sed -i "s/NAMEPLACEHOLDER/$beatname/g" /etc/filebeat/filebeat.yml
+elastichome=$2
+sed -i "s/ELASTICHOSTPLACEHOLDER/$elastichome/g" /etc/filebeat/filebeat.yml
+sed -i "s/COMPLYHOSTNAME/$beatname/g" /etc/filebeat/filebeat.yml
