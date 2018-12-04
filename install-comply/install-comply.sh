@@ -29,7 +29,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  sed -i 's/OVERWRITE_EXISTING$/OVERWRITE_EXISTING \&/g' /opt/worldspace/components/keycloak/bin/firstrun.sh
                  echo "------------------- Executing ./worldspace/components/keycloak/bin/firstrun.sh"
                  echo "------------------------------------------------------------------------------"
-                 chown -R worldspace:worldspace /opt/worldspace
+                 chown -R worldspace:worldspace /opt/*
                  ./worldspace/components/keycloak/bin/firstrun.sh > /dev/null &
                  cd -;
                  echo "------------------- Executing /etc/supervisord.d/comply.ini edits... ---------"
@@ -42,7 +42,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  supervisorctl status
                  sed -i 's.7/custom-rules.7.g' /opt/worldspace/mounts/nginx/conf.d/comply.conf
                  systemctl restart nginx
-                 chown -R worldspace:worldspace /opt/worldspace
+                 chown -R worldspace:worldspace /opt/*
                  redis-cli CONFIG SET dir /var/lib/redis
                  redis-cli CONFIG SET dbfilename temp.rdb
                  redis-cli BGSAVE
@@ -67,7 +67,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      echo "------------------- Executing $COMPLYINSTALLER"
                      echo "----------------------------------------------------"
                      ./$COMPLYINSTALLER --mode unattended --optionfile ./install.options
-                     chown -R worldspace:worldspace /opt/worldspace
+                     chown -R worldspace:worldspace /opt/*
                      cd -;
                      echo "------------------- Executing /etc/supervisord.d/comply.ini edits..."
                      echo "------------------------------------------------------------------------------"
@@ -77,7 +77,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      echo "------------------------------------------------------------------------------"
                      supervisorctl reload
                      supervisorctl status
-                     chown -R worldspace:worldspace /opt/worldspace
+                     chown -R worldspace:worldspace /opt/*
                      echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
                      sysctl vm.overcommit_memory=1
                      rpm -vi scripts/components/filebeat/filebeat-6.5.1-x86_64.rpm
