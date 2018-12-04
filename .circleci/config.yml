@@ -1,0 +1,117 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+    steps:
+      - checkout
+      - run:
+          name: orient base dir
+          command: pwd
+      - run:
+          name: identify repo objects 
+          command: ls
+      - add_ssh_keys:
+          fingerprints:
+            - "8b:10:7c:49:05:c3:a0:95:ba:7b:38:29:bc:47:6f:7d"
+      - run: echo "deb  http://deb.debian.org/debian  stretch main" >> /etc/apt/sources.list
+      - run: echo "deb-src  http://deb.debian.org/debian  stretch main" >> /etc/apt/sources.list
+      - run: cat /etc/apt/sources.list
+      - run: apt update
+      - run:
+          name: Install SCP 
+          command: apt -y install openssh-client 
+      - run:
+          name: Install AWS CLI tools
+          command: |
+            apt-get update
+            apt-get install -y python-pip python-dev
+            pip install awscli
+            aws --version
+
+      - run:
+          name: S3 IAM test
+          command: |
+            aws s3 cp circlecis3test.txt s3://comply-ci/circlecis3test.txt
+
+      - run:
+          name: Create installer package for EC2 
+          command: |
+            tar -pcvzf circleci-saas-light-comply-installer.tar.gz install-comply
+
+      - run:
+          name: Place installer on Core EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            scp -o StrictHostKeyChecking=no -r /root/project/circleci-saas-light-comply-installer.tar.gz circleci@comply-qa-centos-core.dequelabs.com:/home/circleci
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'tar -zxvf circleci-saas-light-comply-installer.tar.gz'
+
+      - run:
+          name: Install AWS tools on Core EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            scp -o StrictHostKeyChecking=no -r /root/project/ci-scripts/install.aws.tools.sh circleci@comply-qa-centos-core.dequelabs.com:/home/circleci
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'sudo bash -s' < install.aws.tools.sh 
+
+      - run:
+          name: Execute core prereq script on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'cd install-comply; sudo ./prereq-setup.sh core 6.2.1'
+
+      - run:
+          name: Execute core install script on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'cd install-comply; sudo ./install-comply.sh core 6.2.1'
+
+      - run:
+          name: Execute core start_order scripts on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            echo "sleeping 60 seconds for keycloak initializations..."
+            sleep 60
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-core.dequelabs.com 'cd install-comply; sudo ./start_order.sh core'
+
+      - run:
+          name: Place installer on Analysis EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            scp -o StrictHostKeyChecking=no -r /root/project/circleci-saas-light-comply-installer.tar.gz circleci@comply-qa-centos-analysis.dequelabs.com:/home/circleci
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'tar -zxvf circleci-saas-light-comply-installer.tar.gz'
+
+      - run:
+          name: Install AWS tools on Analysis EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            scp -o StrictHostKeyChecking=no -r /root/project/ci-scripts/install.aws.tools.sh circleci@comply-qa-centos-analysis.dequelabs.com:/home/circleci
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'sudo bash -s' < install.aws.tools.sh
+
+      - run:
+          name: Execute analysis prereq script on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./prereq-setup.sh selenium 6.2.1'
+
+      - run:
+          name: Execute analysis install script on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./install-comply.sh selenium 6.2.1'
+
+      - run:
+          name: Execute analysis start_order scripts on EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
+            echo "sleeping 45 seconds for analysis component initialization."
+            sleep 45
+            ssh -o StrictHostKeyChecking=no circleci@comply-qa-centos-analysis.dequelabs.com 'cd install-comply; sudo ./start_order.sh selenium'
+
+  deploy:
+    machine:
+        enabled: true
+    steps:
+      - run:
+          name: Execute SCP to EC2
+          command: |
+            chmod 600 ~/.ssh/id_*
