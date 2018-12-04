@@ -1,6 +1,6 @@
 #!/bin/bash
 chown -R worldspace:worldspace /opt/worldspace
-if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] [[ $1 != "stopall" ]];
+if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
     then echo "This script must be run with one argument which must be either "core", "selenium", or "stopall".";
         exit 1;
     else
