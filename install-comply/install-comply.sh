@@ -16,6 +16,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  cd /opt;
                  echo "Retreiving comply install.options from s3.."
                  aws s3 cp s3://comply-ci/install.options.core ./install.options
+                 sudo chown worldspace:worldspace install.options
                  echo "Retreiving comply bitrock installer from s3.."
                  aws s3 cp s3://comply-ci/$COMPLYINSTALLER ./$COMPLYINSTALLER
                  chmod 755 ./$COMPLYINSTALLER
@@ -60,6 +61,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      cd /opt;
                      echo "Retreiving comply install.options from s3.."
                      aws s3 cp s3://comply-ci/install.options.selenium ./install.options
+                     sudo chown worldspace:worldspace install.options
                      echo "Retreiving comply bitrock installer from s3.."
                      aws s3 cp s3://comply-ci/$COMPLYINSTALLER ./$COMPLYINSTALLER
                      chmod 755 ./$COMPLYINSTALLER
