@@ -15,10 +15,10 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                  supervisorctl stop all;
                  echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                  sleep 30;
-                 ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
-                 service supervisord stop;
+                 ps -ef | grep 'keycloak' | awk '{print$2}' | xargs kill -9
+#                 service supervisord stop;
                  sleep 30;
-                 service supervisord start;
+#                 service supervisord start;
                  for i in worldspace:keycloak scan-manager:ecp-registry scan-manager:ecp-config-server scan-manager:ecp-custom-rules scan-manager:ecp-gateway scan-manager:ecp-manager worldspace:comply;
                      do 
                          super_startup $i; echo "sleeping 45 seconds while $i launches...";sleep 45; 
@@ -34,13 +34,13 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
         "stopall" )
                     supervisorctl stop all;
                     echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
-                    ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
+                    ps -ef | grep 'keycloak' | awk '{print$2}' | xargs kill -9
                     sleep 60;
                     service supervisord stop;
                     ;;
         "selenium" )
 
-                         wspublic=$(/opt/install.options | awk -F'=' '{print$2}')
+                         wspublic=$(grep wspublic /opt/install.options | awk -F'=' '{print$2}')
 
                          route_test () {
                              x=$(./scripts/components/centos7/nc -lk $1 & ./scripts/components/centos7/nc -vz -w1 $wspublic $1 &> /dev/null; echo $?; ps -ef | grep "./scripts/components/centos7/nc -lk $1" | awk '{print$2}' | xargs kill -9 > /dev/null 2>&1);
@@ -62,8 +62,8 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                      supervisorctl stop all;
                      echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                      sleep 30;
-                     ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
-                     service supervisord stop;
+                     ps -ef | grep 'keycloak' | awk '{print$2}' | xargs kill -9
+#                     service supervisord stop;
                      sleep 30;
                      service supervisord start;
                      for i in scan-worker:ecp-proxy scan-worker:ecp-result-processor scan-worker:ecp-selenium scan-worker:ecp-worker
