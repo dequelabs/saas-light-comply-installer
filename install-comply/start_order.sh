@@ -15,6 +15,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                  supervisorctl stop all;
                  echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                  sleep 30;
+                 ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
                  service supervisord stop;
                  sleep 30;
                  service supervisord start;
@@ -33,6 +34,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
         "stopall" )
                     supervisorctl stop all;
                     echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
+                    ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
                     sleep 60;
                     service supervisord stop;
                     ;;
@@ -60,6 +62,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                      supervisorctl stop all;
                      echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                      sleep 30;
+                     ps -ef | grep 'keycloak' | awk '{print$1}' | xargs kill -9
                      service supervisord stop;
                      sleep 30;
                      service supervisord start;
