@@ -10,13 +10,16 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
         case "$1" in
         "core" )
                  service filebeat stop;
-                 echo "copying install.options from /opt.."
-                 cp /opt/install.options ./
+                 supervisorctl stop all;
+                 echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
+                 sleep 30;
+                 service supervisord stop;
+                 sleep 30;
+                 service supervisord start;
                  echo "Uninstalling comply core..."
-                 ./opt/worldspace/uninstall
+                 cd /opt
+                 echo Y | ./worldspace/uninstall
                  rm -rf /opt/worldspace
-                 cp ./install.options /opt
-                 cd /opt;
                  echo "Retreiving comply bitrock installer from s3.."
                  aws s3 cp s3://comply-ci/$COMPLYINSTALLER ./$COMPLYINSTALLER
                  chmod 755 ./$COMPLYINSTALLER
@@ -44,13 +47,16 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
 
         "selenium" )
                      service filebeat stop;
-                     echo "copying install.options from /opt.."
-                     cp /opt/install.options ./
+                     supervisorctl stop all;
+                     echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
+                     sleep 30;
+                     service supervisord stop;
+                     sleep 30;
+                     service supervisord start;
                      echo "Uninstalling comply core..."
-                     ./opt/worldspace/uninstall
+                     cd /opt
+                     echo Y | ./worldspace/uninstall
                      rm -rf /opt/worldspace
-                     cp ./install.options /opt
-                     cd /opt;
                      echo "Retreiving comply bitrock installer from s3.."
                      aws s3 cp s3://comply-ci/$COMPLYINSTALLER ./$COMPLYINSTALLER
                      chmod 755 ./$COMPLYINSTALLER

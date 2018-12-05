@@ -13,9 +13,11 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
         case "$1" in
         "core" )
                  supervisorctl stop all;
-                 echo "Stopping all supervisord services, sleeping 30 seconds for service shutdown.."
+                 echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                  sleep 30;
-
+                 service supervisord stop;
+                 sleep 30;
+                 service supervisord start;
                  for i in worldspace:keycloak scan-manager:ecp-registry scan-manager:ecp-config-server scan-manager:ecp-custom-rules scan-manager:ecp-gateway scan-manager:ecp-manager worldspace:comply;
                      do 
                          super_startup $i; echo "sleeping 45 seconds while $i launches...";sleep 45; 
@@ -56,9 +58,11 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                          for n in 27017; do sleep 1; route_test $n MongoDB; done
 
                      supervisorctl stop all;
-                     echo "Stopping all supervisord services, sleeping 30 seconds for service shutdown.."
+                     echo "Stopping all supervisord services, sleeping 60 seconds for service shutdown.."
                      sleep 30;
-
+                     service supervisord stop;
+                     sleep 30;
+                     service supervisord start;
                      for i in scan-worker:ecp-proxy scan-worker:ecp-result-processor scan-worker:ecp-selenium scan-worker:ecp-worker
                          do
                              super_startup $i; echo "sleeping 45 seconds while $i launches...";sleep 45;

@@ -35,7 +35,6 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                  echo "------------------- Executing /etc/supervisord.d/comply.ini edits... ---------"
                  echo "------------------------------------------------------------------------------"
                  cat scripts/components/core-init-edit.txt | while read p n; do sed -i "/$p/,+$n"d"" /etc/supervisord.d/comply.ini; done
-                 sed -i 's/autostart=false/autostart=true/g' /etc/supervisord.d/comply.ini
                  echo "------------------ Check supervisorctl service status ------------------------"
                  echo "------------------------------------------------------------------------------"
                  supervisorctl reload
@@ -72,7 +71,6 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]];
                      echo "------------------- Executing /etc/supervisord.d/comply.ini edits..."
                      echo "------------------------------------------------------------------------------"
                      cat scripts/components/selenium-init-edit.txt | while read p n; do sed -i "/$p/,+$n"d"" /etc/supervisord.d/comply.ini; done
-                     sed -i 's/autostart=false/autostart=true/g' /etc/supervisord.d/comply.ini
                      echo "------------------ Check supervisorctl service status ------------------------"
                      echo "------------------------------------------------------------------------------"
                      supervisorctl reload
