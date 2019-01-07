@@ -1,5 +1,5 @@
 #!/bin/bash
-chown -R worldspace:worldspace /opt/*
+chown -R worldspace:worldspace /opt/worldspace/*
 if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
     then echo "This script must be run with one argument which must be either "core", "selenium", or "stopall".";
         exit 1;
@@ -40,7 +40,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
                     ;;
         "selenium" )
 
-                         wspublic=$(grep wspublic /opt/install.options | awk -F'=' '{print$2}')
+                         wspublic=$(sudo grep wspublic /opt/install.options | awk -F'=' '{print$2}')
 
                          route_test () {
                              x=$(./scripts/components/centos7/nc -lk $1 & ./scripts/components/centos7/nc -vz -w1 $wspublic $1 &> /dev/null; echo $?; ps -ef | grep "./scripts/components/centos7/nc -lk $1" | awk '{print$2}' | xargs kill -9 > /dev/null 2>&1);
