@@ -66,7 +66,7 @@ if [[ $1 != "core" ]] && [[ $1 != "selenium" ]] && [[ $1 != "stopall" ]];
 #                     service supervisord stop;
                      sleep 30;
                      service supervisord start;
-                     for i in scan-worker:ecp-proxy scan-worker:ecp-result-processor scan-worker:ecp-selenium scan-worker:ecp-worker
+                     for i in scan-worker:ecp-proxy scan-worker:ecp-selenium scan-worker:ecp-worker
                          do
                              super_startup $i; echo "sleeping 45 seconds while $i launches...";sleep 45;
                          done
